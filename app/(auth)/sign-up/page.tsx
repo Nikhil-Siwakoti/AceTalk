@@ -1,10 +1,9 @@
 import React from 'react'
+import AuthForm from '@/components/AuthForm'
 
 const page = () => {
   return (
-    <div>
-      signup
-    </div>
+    <AuthForm  type="sign-up" />
   )
 }
 
