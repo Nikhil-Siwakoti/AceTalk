@@ -37,8 +37,8 @@ const InterviewCard = ({
                 <h3 className="mt-5 capitalize">
                     {role} Interview
                 </h3>
-                <div className="flex flex-row gap-5 mt-3">
-                    <div className="flex flex-row gap-2 ">
+                <div className="flex flex-row gap-2 mt-3">
+                    <div className="flex flex-row gap-2">
                         <Image 
                            src='/calendar.svg'
                            alt="calendar"
@@ -64,12 +64,13 @@ const InterviewCard = ({
                 <p className="line-clamp-2 mt-5">{feedback?.finalAssessment || "You haven't taken any interview yet."}</p>
         </div>
         <div className="flex flex-row justify-between">
-            <p>
-                Tech Icons
-            </p>
+            <p>Tech Icons</p>
             <Button className="btn-primary">
-                <Link href='/'>
-                Hello
+                <Link href={feedback
+                ? `/interview/${interviewId}/feedback`
+                 : `/interview/${interviewId}`
+                 }>
+                {feedback?'Check Feedback' : 'View Interview'}
                 </Link>
             </Button>
         </div>
