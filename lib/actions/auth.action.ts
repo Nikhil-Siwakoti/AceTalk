@@ -25,6 +25,12 @@ export async function signUp(params:SignUpParams) {
 
         })
 
+
+        return{
+            success: true,
+            message:"Account Create Successfully."
+        }
+
     } catch( e : any ){
         console.error("There was an error : ", e);
 
@@ -60,12 +66,12 @@ export async function signIn(params:SignInParams){
         await setSessionCookie( idToken );
 
     } catch( e ){
-        console.error("There was an error : ", e);
+        console.error("There was an error : ",e);
 
 
         return{
             success: false,
-            message:"Account Creation Failed."
+            message:"Account Login Failed."
         }
 
         }
