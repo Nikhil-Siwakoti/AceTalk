@@ -28,7 +28,7 @@ export async function signUp(params:SignUpParams) {
 
         return{
             success: true,
-            message:"Account Create Successfully."
+            message:"Account Created Successfully."
         }
 
     } catch( e : any ){
