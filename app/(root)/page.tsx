@@ -4,13 +4,22 @@ import React from "react";
 import Image from "next/image";
 import { dummyInterviews } from "@/constants";
 import InterviewCard from "@/components/InterviewCard";
-import { getCurrentUser, getInterviewByUserId } from "@/lib/actions/auth.action";
+import { getCurrentUser, getInterviewByUserId, getLatestInterviews } from "@/lib/actions/auth.action";
 
 const page = async () => {
     const user = await getCurrentUser();
-    const userInterviews = await getInterviewByUserId(user?.id!);
+
+    const [ userInterviews, latestInterviews ] = await Promise.all([
+
+      await getInterviewByUserId(user?.id!),
+      await getLatestInterviews({ userId: user?.id! }),
+
+    ])
+  
+
 
     const hasPastInterviews = userInterviews?.length > 0 ; 
+    const hasUpComingInterviews = latestInterviews?.length > 0 ;  
 
   return (
     <>
@@ -47,9 +56,12 @@ const page = async () => {
       <section className="flex flex-col gap-6 mt-8">
       <h2>Take an Interview</h2>
         <div className="interviews-section">
-        {dummyInterviews.map((interview)=>(
-          <InterviewCard key={interview.id}{...interview}/>
-         ))}
+        {hasUpComingInterviews ? (
+            latestInterviews?.map((interview) => (
+              <InterviewCard key={interview.id}{...interview}/>
+            ))) : ( <p>There are no up coming Interviews.</p>)
+
+          }
 
         
         </div>
