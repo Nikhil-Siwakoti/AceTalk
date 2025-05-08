@@ -23,3 +23,12 @@ export async function getLatestInterviews( params : GetLatestInterviewsParams ) 
 
     })) as Interview[];
 }
+
+
+export async function getInterviewById( id : string ) : Promise<Interview | null>{
+    const { userId, limit = 20 } = params;
+    
+    const interviews = await db.collection('interviews').doc(id).get();
+
+    return interviews.data() as Interview | null ; 
+}
