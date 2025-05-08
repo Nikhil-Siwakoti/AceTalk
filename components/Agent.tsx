@@ -19,7 +19,7 @@ interface SavedMessage {
     content : string;
 }
 
-const Agent = ({ userName, userId, type }: AgentProps) => { 
+const Agent = ({ userName, userId, type, interviewId, questions }: AgentProps) => { 
     const router = useRouter();
     const [isSpeaking, setIsSpeaking] = useState(false);
     const [callStatus, setCallStatus] = useState<CallStatus>(CallStatus.INACTIVE);
@@ -68,9 +68,39 @@ const Agent = ({ userName, userId, type }: AgentProps) => {
 
     },[])
 
+    const handelGenerateFeedback = async (messages:
+        SavedMessage[]) =>{
+
+            console.log('Generate feedback here.');
+
+            const { success, id } = {
+                success: true,
+                id: 'feedback-id'
+            }
+
+            if(success && id ){
+                router.push(`/interview/${interviewId}/feedback`);
+
+            } else {
+                console.log('Error saving feedback');
+                router.push('/')
+            }
+
+        }
+    
+
     useEffect(() => {
+
+        if(callStatus === CallStatus.FINISHED){
+            if(type === 'generate'){
+                router.push('/')
+            }
+            else{
+                handelGenerateFeedback(messages);
+            }
+        }
        
-        if(callStatus === CallStatus.FINISHED) router.push('/')
+       
 
     },[messages, callStatus, type, userId])
 
