@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { vapi } from '@/lib/vapi.sdk';
+import { interviewer } from '@/constants';
 
 
 enum CallStatus{
@@ -107,12 +108,31 @@ const Agent = ({ userName, userId, type, interviewId, questions }: AgentProps) =
     const handelCall = async () => {
         setCallStatus(CallStatus.CONNECTING)
 
-        await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
-            variableValues : {
-                username : userName,
-                userid : userId,
+
+        if(type==='generate'){
+
+            await vapi.start(process.env.NEXT_PUBLIC_VAPI_WORKFLOW_ID!, {
+                variableValues : {
+                    username : userName,
+                    userid : userId,
+                }
+            })
+
+        } else {
+            let formattedQuestions = '';
+
+            if(questions){
+                formattedQuestions = questions.map((question) => `- ${question}`).join('\n');
             }
-        })
+
+            await vapi.start(interviewer, {
+                variableValues: {
+                    questions : formattedQuestions
+                }
+            })
+        }
+
+    
 
     }
     const handelDisconnect = async () => {
