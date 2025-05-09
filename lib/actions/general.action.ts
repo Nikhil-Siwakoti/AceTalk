@@ -36,7 +36,7 @@ export async function getInterviewById( id : string ) : Promise<Interview | null
 }
 
 
-export async function getFeedback( params : CreateFeedbackParams){
+export async function createFeedback( params : CreateFeedbackParams){
     const { interviewId, userId, transcript } = params;
 
     try{
@@ -82,6 +82,8 @@ export async function getFeedback( params : CreateFeedbackParams){
 
     } catch (e){
         console.error("Error saving Feedback, Please Try Again.", e)
+
+        return { success:false}
 
     }
 }
